@@ -12,9 +12,13 @@
 */
 Route::get('signup','MemberController@signupForm');
 Route::post('signup','MemberController@signup'); 
-Route::get('/registerFeed','ReaderController@registerFeed') ; 
 
 Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+
+Route::get('user/list','MemberController@memberList'); 
+
+Route::resource('group','GroupController@create'); 

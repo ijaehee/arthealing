@@ -5,6 +5,7 @@
         <?php
             Asset::queue('bootstrap','css/bootstrap.css'); 
             Asset::queue('reset','css/reset.css'); 
+            Asset::queue('jquery','js/jquery-1.9.1.min.js'); 
             $styles = Asset::getCompiledStyles() ; 
             $scripts = Asset::getCompiledScripts() ; 
 
