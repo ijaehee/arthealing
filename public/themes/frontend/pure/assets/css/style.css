@@ -1,0 +1,15 @@
+textarea.note {
+    background : url('../img/note_line.png') repeat !important ; 
+    border:0px ; 
+    line-height:25px;
+    padding-left: 25px; 
+    padding-top:2px; 
+}
+
+
+.artwork_title { }
+.artwork_title .bracket { width:10px; height:10px;}
+.artwork_title .lt_bracket {background:url('../img/bracket.png') 0 0 ;}
+.artwork_title .rb_bracket {background:url('../img/bracket.png') 20px 0 ;float:right;} 
+.control-group { margin-bottom:10px;}
+.help-block { color:#00afec;margin-top:3px;}
