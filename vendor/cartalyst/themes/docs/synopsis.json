@@ -1,0 +1,9 @@
+{
+	"name" : "Themes 2",
+	"type" : "package",
+	"public" : false,
+	"branch" : "master",
+	"github" : "cartalyst/themes",
+	"travis" : false,
+	"demo" : false
+}
