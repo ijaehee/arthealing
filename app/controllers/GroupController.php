@@ -19,12 +19,28 @@ class GroupController extends \BaseController {
 	 */
     public function create()
     {
-        $group = Sentry::getGroupProvider()->create(array(
-            'name'        => '아트그라피',
-            'permissions' => array(
-                'users' => 1,
-            ),
-        ));
+        try
+        {
+            $group = Sentry::getGroupProvider()->create(array(
+                'name'        => '아트그라피',
+                'permissions' => array(
+                    'users' => 1,
+                ),
+            ));
+        }
+        catch (Cartalyst\Sentry\Groups\NameRequiredException $e)
+        {
+            echo 'Name field is required';
+        }
+        catch (Cartalyst\Sentry\Groups\GroupExistsException $e)
+        {
+            echo 'Group already exists';
+        }
+    }
+
+    public function createForm()
+    {
+        return View::make('group/create') ; 
     }
 
     /**
@@ -85,7 +101,7 @@ class GroupController extends \BaseController {
         }
         catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
         {
-                echo 'Group was not found.';
+            echo 'Group was not found.';
         }
     }
 

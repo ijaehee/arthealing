@@ -37,7 +37,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                 <?php foreach($result['users'] as $key => $user) :?>
                 <tr>  
                     <td><?=$user->id;?></td>
-                    <td><?=$user->email;?></td>
+                    <td><a href="/member/view/<?=$user->id;?>"><?=$user->email;?></a></td>
                     <td><?=$user->first_name;?></td>
                     <td><?=$user->created_at;?></td>
                 </tr>  
