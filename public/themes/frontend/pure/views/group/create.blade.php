@@ -8,7 +8,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
         <div class="text-center">
             <h2>그룹생성</h2>
         </div>
-        <form id="reg_form" class="form" method="post" action="/group/register">
+        <form id="reg_form" class="form" method="post" action="/group/create">
             <div class="control-groups">
                 <label class="control-label">GroupName </label>
                 <div lass="controls">
@@ -17,15 +17,22 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
             </div>
             <div class="control-groups">
                 <label class="control-label">Permissions </label>
-                <div lass="controls">
-                    <input type="radio" name="permissions" value="admin">Admin
-                    <input type="radio" name="permissions" value="users">Users
+                <div class="controls">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="permissions[]" value="admin">Admin
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="permissions[]" value="users">Users
+                    </label>
                 </div>
             </div>
             <hr>
             <div class="text-center well" style="background-color:#efefef;"><?=@$msg;?></div>
             <div class="control-groups pull-right">
                 <button type="submit" class="btn btn-primary">Sign Up</button>
+            </div>
+            <div class="control-groups pull-left">
+                <a class="btn btn-default" href="/group/list">목록</a>
             </div>
         </form>
     </div>

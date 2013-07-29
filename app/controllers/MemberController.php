@@ -201,4 +201,17 @@ class MemberController extends BaseController {
 
         return View::make('member/leave',$response) ;
     }
+
+    public function destroy($id)
+    {
+        try
+        {
+            $throttle = Sentry::getThrottleProvider()->findByUserId($id);
+            $throttle->ban();
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+        }
+        return Redirect::to('member/list');  
+    }
 }

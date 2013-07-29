@@ -23,6 +23,8 @@ Route::post('login','MemberController@login');
 
 Route::post('member/modify','MemberController@modify'); 
 
+Route::get('member/delete/{id?}','MemberController@destroy'); 
+
 Route::get('member/list','MemberController@memberList'); 
 Route::get('member/view/{id?}','MemberController@view'); 
 
@@ -30,4 +32,8 @@ Route::get('member/leave','MemberController@leaveForm');
 Route::post('member/leave','MemberController@leave'); 
 
 Route::get('group/create','GroupController@createForm');
-Route::resource('group','GroupController@create'); 
+Route::post('group/create','GroupController@create'); 
+
+Route::get('group/list','GroupController@groupList'); 
+
+Route::get('group/delete/{id?}','GroupController@destroy'); 

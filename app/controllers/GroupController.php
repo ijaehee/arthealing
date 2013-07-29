@@ -19,23 +19,33 @@ class GroupController extends \BaseController {
 	 */
     public function create()
     {
+        $response = array() ;
+
+        $temp = Input::get('permissions');
+
+        $permissions = array();
+        if(!empty($temp)){
+            foreach($temp as $key => $value){
+                $permissions[$value] = true; 
+            }
+        }
+
         try
         {
             $group = Sentry::getGroupProvider()->create(array(
-                'name'        => '아트그라피',
-                'permissions' => array(
-                    'users' => 1,
-                ),
+                'name'        => Input::get('groupname'),
+                'permissions' => $permissions
             ));
         }
         catch (Cartalyst\Sentry\Groups\NameRequiredException $e)
         {
-            echo 'Name field is required';
+            $response['msg'] = '그룹이름을 입력하세요.';
         }
         catch (Cartalyst\Sentry\Groups\GroupExistsException $e)
         {
-            echo 'Group already exists';
+            $response['msg'] = '이미 그룹이 존재합니다.';
         }
+        return View::make('group/create',$response) ;
     }
 
     public function createForm()
@@ -101,8 +111,21 @@ class GroupController extends \BaseController {
         }
         catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
         {
-            echo 'Group was not found.';
         }
+        return Redirect::to('group/list');  
     }
 
+    public function groupList()
+    {
+        $result = array();
+
+        try {
+            $result['groups'] = Sentry::getGroupProvider()->findAll();
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        {
+
+        }
+        return View::make('group/list')->with('result',$result) ;
+    }
 }
