@@ -1,0 +1,29 @@
+{
+    "name": "artgrafii/pinfo",
+    "description": "",
+    "authors": [
+        {
+            "name": "jaehee",
+            "email": "jaehee@artgrafii.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x",
+		"illuminate/database": "4.0.*"
+    },
+    "require-dev": {
+		"mockery/mockery": "0.7.2", 
+		"illuminate/database": "4.0.*"
+	},
+    "autoload": {
+        "classmap": [
+            "src/migrations",
+            "src/Artgrafii/Pinfo/Profiles/Eloquent"
+        ],
+        "psr-0": {
+            "Artgrafii\\Pinfo": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
