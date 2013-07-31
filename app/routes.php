@@ -37,3 +37,10 @@ Route::post('group/create','GroupController@create');
 Route::get('group/list','GroupController@groupList'); 
 
 Route::get('group/delete/{id?}','GroupController@destroy'); 
+
+Route::get('program/create','ProgramController@createForm');
+Route::post('program/create','ProgramController@create');
+
+Route::get('program/list','ProgramController@programList');
+
+Route::get('program/delete/{id?}','ProgramController@destroy'); 

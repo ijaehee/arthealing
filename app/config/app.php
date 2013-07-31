@@ -114,8 +114,10 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
         'Cartalyst\Themes\ThemeServiceProvider',
-        'Cartalyst\Sentry\SentryServiceProvider'
+        'Cartalyst\Sentry\SentryServiceProvider',
 
+        'Intervention\Image\ImageServiceProvider',
+        'Artgrafii\Drive\DriveServiceProvider'
 	),
 
 	/*
@@ -182,7 +184,10 @@ return array(
         'View'            => 'Illuminate\Support\Facades\View',
         'Sentry'          => 'Cartalyst\Sentry\Facades\Laravel\Sentry',
         'Theme' => 'Cartalyst\Themes\Facades\Theme',
-        'Asset' => 'Cartalyst\Themes\Facades\Asset' 
+        'Asset' => 'Cartalyst\Themes\Facades\Asset', 
+
+        'Image' => 'Intervention\Image\Facades\Image',
+        'Drive' => 'Artgrafii\Drive\Facades\Laravel\Drive'
 	),
 
 );

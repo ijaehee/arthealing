@@ -16,6 +16,11 @@ class MemberController extends BaseController {
             return View::make('member/signup',$response) ;
         }
 
+        if(Input::get('password') != Input::get('password_conf')){
+            $response['msg'] = '비밀번호와 비밀번호확인 값이 틀립니다.';
+            return View::make('member/signup',$response) ;
+        }
+
         $data = array() ;
         $data['email'] = Input::get('email') ;
         $data['password'] = Input::get('password') ;
