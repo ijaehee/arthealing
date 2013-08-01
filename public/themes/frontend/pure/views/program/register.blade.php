@@ -1,28 +1,33 @@
 @extends('layouts/pureLayout') 
 <?php
-Asset::queue('MemberController','js/MemberController.js','jquery') ; 
+Asset::queue('ProgramController','js/ProgramController.js','jquery') ; 
 ?>
 @section('content')
 <div class="container"> 
     <div style="">
         <div class="text-center">
+        <?php if(empty($program)): ?>
             <h2>프로그램생성</h2>
+        <?php else : ?>
+            <h2>프로그램수정</h2>
+        <?php endif ; ?>
         </div>
         <form id="reg_form" class="form" method="post" action="/program/create" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?=@$program->id;?>"/>
             <div class="control-groups">
                 <label class="control-label">ProgramName </label>
                 <div lass="controls">
-                    <input type="text" name="programname" value="" placeholder="Program Name" />
+                <input type="text" name="programname" value="<?=@$program->name;?>" placeholder="Program Name" />
                 </div>
             </div>
             <div class="control-groups">
                 <label class="control-label">Category </label>
                 <div lass="controls">
                     <select name="category">
-                        <option value="1">아트힐링</option>
-                        <option value="2">호텔힐링</option>
-                        <option value="3">자연힐링</option>
-                        <option value="4">이벤트힐링</option>
+                        <option value="1" <?php if(@$program->category=="1"){?>selected<?php }?>>아트힐링</option>
+                        <option value="2" <?php if(@$program->category=="2"){?>selected<?php }?>>호텔힐링</option>
+                        <option value="3" <?php if(@$program->category=="3"){?>selected<?php }?>>자연힐링</option>
+                        <option value="4" <?php if(@$program->category=="4"){?>selected<?php }?>>이벤트힐링</option>
                     </select>
                 </div>
             </div>
@@ -30,14 +35,14 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                 <label class="control-label">Exhition </label>
                 <div lass="controls">
                     <select name="exhibition">
-                        <option value="1">김구림전</option>
+                        <option value="1" <?php if(@$program->exhibiton=="1"){?>selected<?php }?>>김구림전</option>
                     </select>
                 </div>
             </div>
             <div class="control-groups">
                 <label class="control-label">Place </label>
                 <div lass="controls">
-                    <input type="text" name="place" value="" placeholder="Place" />
+                    <input type="text" name="place" value="<?=@$program->place;?>" placeholder="Place" />
                 </div>
             </div>
             <div class="control-groups">
@@ -55,13 +60,17 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
             <div class="control-groups">
                 <label class="control-label">Content </label>
                 <div lass="controls">
-                    <textarea type="file" name="content" class="ckeditor" style="width:100%; height:200px;"/></textarea>
+                    <textarea type="file" name="content" class="ckeditor" style="width:100%; height:200px;"/><?=@$program->content;?></textarea>
                 </div>
             </div>
             <hr>
             <div class="text-center alert <?php if(@$success == '1'){ echo 'alert-success';}else if(@$success == '2'){ echo 'alert-danger';}else{ echo 'alert-info';}?>"><?=@$msg;?></div>
             <div class="control-groups pull-right">
+            <?php if(empty($program)): ?>
                 <button type="submit" class="btn btn-primary">Create</button>
+            <?php else : ?>
+                <a class="btn btn-primary btn_modify">수정</a>
+            <?php endif ; ?>
             </div>
             <div class="control-groups pull-left">
                 <a class="btn btn-default" href="/program/list">List</a>

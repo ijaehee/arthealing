@@ -22,11 +22,11 @@ Route::get('login','MemberController@loginForm');
 Route::post('login','MemberController@login'); 
 
 Route::post('member/modify','MemberController@modify'); 
+Route::get('member/modify/{id?}','MemberController@modifyForm'); 
 
 Route::get('member/delete/{id?}','MemberController@destroy'); 
 
 Route::get('member/list','MemberController@memberList'); 
-Route::get('member/view/{id?}','MemberController@view'); 
 
 Route::get('member/leave','MemberController@leaveForm');
 Route::post('member/leave','MemberController@leave'); 
@@ -39,8 +39,22 @@ Route::get('group/list','GroupController@groupList');
 Route::get('group/delete/{id?}','GroupController@destroy'); 
 
 Route::get('program/create','ProgramController@createForm');
-Route::post('program/create','ProgramController@create');
+Route::post('program/create','ProgramController@register');
 
 Route::get('program/list','ProgramController@programList');
 
+Route::get('program/modify/{id?}','ProgramController@modifyForm'); 
+Route::post('program/modify','ProgramController@register'); 
+
 Route::get('program/delete/{id?}','ProgramController@destroy'); 
+
+Route::get('register/list','RegisterController@registerList');
+
+Route::get('register/create','RegisterController@createForm');
+Route::post('register/create','RegisterController@create');
+
+
+Route::get('register/modify/{id?}','RegisterController@modifyForm'); 
+Route::post('register/modify','RegisterController@register'); 
+
+Route::get('register/delete/{id?}','RegisterController@destroy'); 

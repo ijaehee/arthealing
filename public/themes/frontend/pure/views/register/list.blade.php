@@ -8,7 +8,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
         <h2 style="text-align:center">프로그램목록</h2>
     </div>
     <div class="row">
-        <a class="btn btn-info pull-right" href="/program/create">프로그램생성</a>
+        <a class="btn btn-info pull-right" href="/register/create">프로그램생성</a>
     </div>
     <br>
     <div class="row">
@@ -18,23 +18,29 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <th>번호</th>
                     <th>프로그램이미지</th>
                     <th>프로그램이름</th>
+                    <th>투어날짜</th>
+                    <th>등록수</th>
                     <th>생성날짜</th>
+                    <th>Hit</th>
                     <th>기능</th>
                 </tr>
             </thead>
             <tbody>
-                <?php if(empty($result['programs'])){ ?>
+                <?php if(empty($result['registers'])){ ?>
                 <tr class="text-center">
-                    <td colspan="5">프로그램이 없습니다.</td>
+                    <td colspan="8">등록이 없습니다.</td>
                 </tr>
                 <?php }else{ ?>
-                <?php foreach($result['programs'] as $key => $program) :?>
+                <?php foreach($result['registers'] as $key => $register) :?>
                 <tr>  
-                    <td><?=$program->id;?></td>
-                    <td><a href="/program/modify/<?=$program->id;?>"><img src="<?=$program->main_src;?>"></a></td>
-                    <td><?=$program->name;?></td>
-                    <td><?=$program->created_at;?></td>
-                    <td><a class="btn btn-danger" href="/program/delete/<?=$program->id;?>">삭제</a></td>
+                    <td><?=$register->id;?></td>
+                    <td><a href="/register/modify/<?=$register->id;?>"><img src="<?=$register->main_src;?>"></a></td>
+                    <td><?=$register->name;?></td>
+                    <td><?=$register->due_date;?></td>
+                    <td><?=$register->people;?></td>
+                    <td><?=$register->created_at;?></td>
+                    <td><?=$register->hit;?></td>
+                    <td><a class="btn btn-danger" href="/register/delete/<?=$register->id;?>">삭제</a></td>
                 </tr>  
                 <?php endforeach;?>
                 <?php }?>

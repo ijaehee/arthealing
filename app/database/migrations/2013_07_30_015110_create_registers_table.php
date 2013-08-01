@@ -15,11 +15,11 @@ class CreateRegistersTable extends Migration {
 		Schema::create('registers', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('programs_id');
+			$table->integer('program_id');
 			$table->date('due_date');
-			$table->integer('people');
-			$table->text('etc');
-			$table->integer('hit');
+			$table->integer('people')->default(0);
+			$table->text('etc')->nullable();
+			$table->integer('hit')->default(0);
 			$table->timestamps();
 		});
 	}

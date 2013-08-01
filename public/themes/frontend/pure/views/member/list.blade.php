@@ -38,7 +38,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                 <?php foreach($result['users'] as $key => $user) :?>
                 <tr>  
                     <td><?=$user->id;?></td>
-                    <td><a href="/member/view/<?=$user->id;?>"><?=$user->email;?></a></td>
+                    <td><a href="/member/modify/<?=$user->id;?>"><?=$user->email;?></a></td>
                     <td><?=$user->first_name;?></td>
                     <td><?=$user->created_at;?></td>
                     <td><a class="btn btn-danger" href="/member/delete/<?=$user->id;?>">삭제</a></td>

@@ -36,6 +36,7 @@ class GroupController extends \BaseController {
                 'name'        => Input::get('groupname'),
                 'permissions' => $permissions
             ));
+            $response['msg'] = '그룹이 생성되었습니다.';
         }
         catch (Cartalyst\Sentry\Groups\NameRequiredException $e)
         {

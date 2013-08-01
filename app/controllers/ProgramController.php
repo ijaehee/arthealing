@@ -17,7 +17,7 @@ class ProgramController extends \BaseController {
      *
      * @return Response
      */
-    public function create()
+    public function register()
     {
         $response = array();
 
@@ -41,28 +41,47 @@ class ProgramController extends \BaseController {
             $data['main_src'] = $main_file->full_path;
         }
 
-        if(isset($main_image)){
+        if(isset($sub_image)){
             $sub_file = $drive->save($sub_image,$additionalFileData) ;
             $data['sub_image'] = $sub_file->id;
             $data['sub_src'] = $sub_file->full_path;
         }
 
-        try { 
-            $program = new Program ;
-            $program->create($data) ; 
-            $response['success'] = 1;
-            $response['msg'] = '프로그램이 생성 되었습니다.';
-        } catch(Exception $e) { 
-            $response['success'] = 2;
-            $response['msg'] = '프로그램이 생성 되지 않았습니다.';
+        $program = new Program ;
+        if(Input::get('id')){
+            try { 
+                $pre_program = $program->find(Input::get('id')); 
+                $pre_program->update($data);
+                $response['success'] = 1;
+                $response['msg'] = '프로그램이 수정되었습니다.';
+            } catch(Exception $e) { 
+                $response['success'] = 2;
+                $response['msg'] = '프로그램이 수정되지 않았습니다.';
+            }
+        }else{
+            try { 
+                $program->create($data) ; 
+                $response['success'] = 1;
+                $response['msg'] = '프로그램이 생성 되었습니다.';
+            } catch(Exception $e) { 
+                $response['success'] = 2;
+                $response['msg'] = '프로그램이 생성 되지 않았습니다.';
+            }
         }
-
-        return View::make('program/create',$response) ;
+        return View::make('program/register',$response) ;
     }
 
     public function createForm()
     {
-        return View::make('program/create') ; 
+        return View::make('program/register') ; 
+    }
+
+    public function modifyForm($id=null){
+        $response = array();
+
+        $program = array();
+        $program = program::find($id);
+        return View::make('program/register',$response)->with('program',$program) ;
     }
 
     public function programList($page=0,$list_count=10)

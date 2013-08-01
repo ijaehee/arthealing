@@ -38,6 +38,8 @@ class MemberController extends BaseController {
             $response['msg'] = '[Password]를 올바르게 입력하세요.';
         } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
             $response['msg'] = '이미 회원 가입을 했습니다. ';
+        } catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e){
+            $response['msg'] = '그룹이 존재하지 않습니다.';
         }
         return View::make('member/signup',$response) ;
     }
@@ -68,7 +70,7 @@ class MemberController extends BaseController {
         return View::make('member/list')->with('result',$result) ;
     }
 
-    public function view($id=null)
+    public function modifyForm($id=null)
     {
         $user = array();
 
@@ -108,11 +110,11 @@ class MemberController extends BaseController {
         }
         catch (Cartalyst\Sentry\Users\UserExistsException $e)
         {
-            echo 'User with this login already exists.';
+            $response['msg'] = '로그인한 유저가 존재합니다.';
         }
         catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
         {
-            echo 'User was not found.';
+            $response['msg'] = '아이디가 존재하지 않습니다.';
         }
 
         return View::make('member/view')->with('user',$user) ;

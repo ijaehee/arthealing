@@ -18,13 +18,13 @@ class CreateProgramsTable extends Migration {
 			$table->integer('category');
 			$table->integer('exhibition_id');
 			$table->string('name');
-			$table->string('place');
-			$table->boolean('activated');
+			$table->string('place')->nullable();
+			$table->boolean('activated')->default(true);;
 			$table->text('content');
-			$table->string('main_image');
-			$table->string('main_src');
-			$table->string('sub_image');
-			$table->string('sub_src');
+			$table->string('main_image')->nullable();
+			$table->string('main_src')->nullable();
+			$table->string('sub_image')->nullable();
+			$table->string('sub_src')->nullable();
 			$table->timestamps();
 		});
 	}
