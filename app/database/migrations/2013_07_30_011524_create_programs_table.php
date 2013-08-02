@@ -19,7 +19,6 @@ class CreateProgramsTable extends Migration {
 			$table->integer('exhibition_id');
 			$table->string('name');
 			$table->string('place')->nullable();
-			$table->boolean('activated')->default(true);;
 			$table->text('content');
 			$table->string('main_image')->nullable();
 			$table->string('main_src')->nullable();

@@ -51,10 +51,16 @@ Route::get('program/delete/{id?}','ProgramController@destroy');
 Route::get('register/list','RegisterController@registerList');
 
 Route::get('register/create','RegisterController@createForm');
-Route::post('register/create','RegisterController@create');
+Route::post('register/create','RegisterController@register');
 
+Route::get('register/activated/{id?}','RegisterController@activated');
+Route::get('register/inactivated/{id?}','RegisterController@inactivated');
 
 Route::get('register/modify/{id?}','RegisterController@modifyForm'); 
 Route::post('register/modify','RegisterController@register'); 
 
 Route::get('register/delete/{id?}','RegisterController@destroy'); 
+
+Route::get('gate/list','GateController@tourList');
+
+Route::get('gate/apply/{id?}','GateController@applyForm'); 

@@ -17,10 +17,8 @@ class RegisterController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-    public function create()
+    public function register()
     {
-        $response = array();
-
         $data = array();
         $data['program_id'] = Input::get('program_id');
         $data['due_date'] = Input::get('due_date');
@@ -32,27 +30,27 @@ class RegisterController extends \BaseController {
             try { 
                 $pre_register = $register->find(Input::get('id')); 
                 $pre_register->update($data);
-                $response['success'] = 1;
-                $response['msg'] = '힐링이 수정되었습니다.';
             } catch(Exception $e) { 
-                $response['success'] = 2;
-                $response['msg'] = '힐링이 수정되지 않았습니다.';
+
             }
+            return Redirect::to('register/modify/'.Input::get('id'));
         }else{
             try { 
                 $register->create($data) ; 
-                $response['success'] = 1;
-                $response['msg'] = '힐링이 생성 되었습니다.';
+
+                return Redirect::to('register/list');
             } catch(Exception $e) { 
+                $response = array();
                 $response['success'] = 2;
                 $response['msg'] = '힐링이 생성 되지 않았습니다.';
+
+                $program = new Program ;
+                $programs = array();
+                $programs = $program->all() ;
+
+                return View::make('register/register',$response)->with('programs',$programs) ;
             }
         }
-
-        $program = new Program ;
-        $programs = array();
-        $programs = $program->all() ;
-        return View::make('register/register',$response)->with('programs',$programs) ;
     }
 
     public function createForm()
@@ -64,15 +62,31 @@ class RegisterController extends \BaseController {
     }
 
     public function modifyForm($id=null){
-        $response = array();
-
         $register = array();
         $register = register::find($id);
 
         $program = new Program ;
         $programs = array();
         $programs = $program->all() ;
-        return View::make('register/register',$response)->with('program',$program) ;
+        return View::make('register/register')->with('register',$register)->with('programs',$programs) ;
+    }
+
+    public function activated($id=null){
+        $register = Register::find($id) ;
+        $data = array();
+        $data['activated'] = 1;
+        $register->update($data);
+
+        return Redirect::to('register/list');
+    }
+
+    public function inactivated($id=null){
+        $register = Register::find($id) ;
+        $data = array();
+        $data['activated'] = 0;
+        $register->update($data);
+
+        return Redirect::to('register/list');
     }
 
     /**
@@ -136,7 +150,8 @@ class RegisterController extends \BaseController {
     {
         $register = new Register ;
         $result = array();
-        $result['registers'] = $register->all() ;
+        $search_param = array();
+        $result['registers'] = $register->getList($search_param,$page,$list_count);
         return View::make('register/list')->with('result',$result) ; 
     }
 }

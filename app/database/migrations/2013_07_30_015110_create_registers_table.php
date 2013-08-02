@@ -19,6 +19,7 @@ class CreateRegistersTable extends Migration {
 			$table->date('due_date');
 			$table->integer('people')->default(0);
 			$table->text('etc')->nullable();
+			$table->integer('activated')->default(0);
 			$table->integer('hit')->default(0);
 			$table->timestamps();
 		});
