@@ -92,6 +92,10 @@ class GateController extends \BaseController {
         if($register_id == null){
             return Redirect::to('/gate/list');
         }
+
+        $tour = new Tour;
+        $tour->hit_count($register_id);
+
         $register = register::find($register_id);
         $program = Program::find($register->program_id) ;
         return View::make('gate/apply')->with('register',$register)->with('program',$program) ;
@@ -121,6 +125,8 @@ class GateController extends \BaseController {
         { 
             $response['msg'] = '로그인하세요.';
             return Redirect::to('/login',$response);
+        }catch (Exception $e){
+            return Redirect::to('/gate/apply/'.Input::get('register_id'));
         }
     }
 }

@@ -11,7 +11,7 @@ Asset::queue('alias','css/jquery-ui.css') ;
             <h2>신청서</h2>
         </div>
         <form id="app_form" class="form" method="post" action="/gate/apply">
-                <input type="hidden" name="id" value="<?=@$register_id;?>"/>
+                <input type="hidden" name="register_id" value="<?=@$register->id;?>"/>
             <div class="control-groups">
                 <label class="control-label">ProgramName </label>
                 <div lass="controls">

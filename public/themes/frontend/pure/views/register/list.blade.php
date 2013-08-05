@@ -38,7 +38,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <td><a href="/register/modify/<?=$register->id;?>"><img src="<?=$register->main_src;?>"></a></td>
                     <td><?=$register->name;?></td>
                     <td><?=$register->due_date;?></td>
-                    <td><?=$register->people;?></td>
+                    <td><?=$register->register_people?>/<?=$register->limit_people?></td>
                     <td><?=$register->created_at;?></td>
                     <td><?=$register->hit;?></td>
                     <td>

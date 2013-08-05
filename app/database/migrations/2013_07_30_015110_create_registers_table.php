@@ -17,7 +17,8 @@ class CreateRegistersTable extends Migration {
 			$table->increments('id');
 			$table->integer('program_id');
 			$table->date('due_date');
-			$table->integer('people')->default(0);
+			$table->integer('register_people')->default(0);
+			$table->integer('limit_people')->default(0);
 			$table->text('etc')->nullable();
 			$table->integer('activated')->default(0);
 			$table->integer('hit')->default(0);

@@ -22,7 +22,7 @@ class RegisterController extends \BaseController {
         $data = array();
         $data['program_id'] = Input::get('program_id');
         $data['due_date'] = Input::get('due_date');
-        $data['people'] = Input::get('people');
+        $data['limit_people'] = Input::get('limit_people');
         $data['etc'] = Input::get('etc');
 
         $register = new Register;

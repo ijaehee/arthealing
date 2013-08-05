@@ -35,7 +35,7 @@ Asset::queue('alias','css/jquery-ui.css') ;
             <div class="control-groups">
                 <label class="control-label">참가자수 </label>
                 <div lass="controls">
-                    <input type="text" name="people" value="<?=@$register->people;?>"/>
+                    <input type="text" name="limit_people" value="<?=@$register->limit_people;?>"/>
                 </div>
             </div>
             <div class="control-groups">
