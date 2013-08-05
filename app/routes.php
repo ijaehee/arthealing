@@ -64,3 +64,4 @@ Route::get('register/delete/{id?}','RegisterController@destroy');
 Route::get('gate/list','GateController@tourList');
 
 Route::get('gate/apply/{id?}','GateController@applyForm'); 
+Route::post('gate/apply','GateController@apply'); 

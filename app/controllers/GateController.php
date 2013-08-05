@@ -87,9 +87,40 @@ class GateController extends \BaseController {
         return View::make('gate/list')->with('result',$result) ;
     }
 
-    public function applyForm($register_id=null){
+    public function applyForm($register_id=null)
+    {
+        if($register_id == null){
+            return Redirect::to('/gate/list');
+        }
         $register = register::find($register_id);
         $program = Program::find($register->program_id) ;
         return View::make('gate/apply')->with('register',$register)->with('program',$program) ;
+    }
+
+    public function apply()
+    {
+        try
+        {
+            if( !Sentry::check()){
+                return Redirect::to('/login');
+            }
+            $user = Sentry::getUser();
+
+            $data = array();
+            $data['register_id'] = Input::get('register_id');
+            $data['user_id'] = $user->id;
+            $data['email'] = $user->email;
+            $data['username'] = $user->first_name;
+
+            $tour = new Tour;
+            $tour->create($data);
+
+            return Redirect::to('/gate/list');
+        }
+        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+        { 
+            $response['msg'] = '로그인하세요.';
+            return Redirect::to('/login',$response);
+        }
     }
 }
