@@ -1,4 +1,4 @@
-@extends('layouts/pureLayout') 
+@extends('layouts/adminLayout') 
 <?php
 Asset::queue('ProgramController','js/ProgramController.js','jquery') ; 
 ?>
