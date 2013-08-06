@@ -23,6 +23,7 @@ return array(
     'SimplePie' => array($vendorDir . '/simplepie/simplepie/library'),
     'Seld\\JsonLint' => array($vendorDir . '/seld/jsonlint/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Program' => array($baseDir . '/app/components'),
     'Predis' => array($vendorDir . '/predis/predis/lib'),
     'Patchwork' => array($vendorDir . '/patchwork/utf8/class'),
     'PHPParser' => array($vendorDir . '/nikic/php-parser/lib'),

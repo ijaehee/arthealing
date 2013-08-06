@@ -1,11 +1,11 @@
-@extends('layouts/pureLayout') 
+@extends('layouts/adminLayout') 
 <?php
 Asset::queue('MemberController','js/MemberController.js','jquery') ; 
 ?>
 @section('content')
 <div class="container"> 
     <div class="row">
-        <h2 style="text-align:center">프로그램목록</h2>
+        <h2>프로그램목록</h2>
     </div>
     <div class="row">
         <a class="btn btn-info pull-right" href="/program/create">프로그램생성</a>
@@ -31,7 +31,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                 <?php foreach($result['programs'] as $key => $program) :?>
                 <tr>  
                     <td><?=$program->id;?></td>
-                    <td><a href="/program/modify/<?=$program->id;?>"><img src="<?=$program->main_src;?>"></a></td>
+                    <td><a href="/program/form/<?=$program->id;?>"><img src="<?=$program->main_src;?>"></a></td>
                     <td><?=$program->name;?></td>
                     <td><?=$program->created_at;?></td>
                     <td><a class="btn btn-danger" href="/program/delete/<?=$program->id;?>">삭제</a></td>

@@ -10,6 +10,7 @@
             Asset::queue('bootstrap','css/bootstrap.css') ;
             Asset::queue('bootstrapDocs','css/docs.css') ;
             Asset::queue('style','css/style.css','bootstrapDocs') ; 
+            Asset::queue('jquery','js/jquery.js') ; 
             $styles = Asset::getCompiledStyles() ; 
             $scripts = Asset::getCompiledScripts() ; 
         ?>

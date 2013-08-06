@@ -1,15 +1,25 @@
 <?php
+use Program\Repositories\ProgramRepositoryInterface; 
 
 class ProgramController extends \BaseController {
+    
+    protected $programRepository ; 
 
+    public function __construct(ProgramRepositoryInterface $programRepository)
+    { 
+        $this->programRepository = $programRepository ; 
+    }
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
     public function index()
+    { 
+    }
+
+    public function modify()
     {
-        //
     }
 
     /**
@@ -26,6 +36,7 @@ class ProgramController extends \BaseController {
         $data['category'] = Input::get('category');
         $data['exhibition_id'] = Input::get('exhibition');
         $data['place'] = Input::get('place');
+        $data['id'] = Input::get('id');
         $data['content'] = Input::get('content');
         $main_image = Input::file('main_image') ;
         $sub_image = Input::file('sub_image') ;
@@ -35,40 +46,28 @@ class ProgramController extends \BaseController {
         $drive = Drive::getDrive('Artwork') ;
 
         if(isset($main_image)){
-            $main_file = $drive->save($main_image,$additionalFileData) ;
+            $main_file = $drive->createFile($main_image,$additionalFileData) ;
 
             $data['main_image'] = $main_file->id;
             $data['main_src'] = $main_file->full_path;
         }
 
         if(isset($sub_image)){
-            $sub_file = $drive->save($sub_image,$additionalFileData) ;
+            $sub_file = $drive->createFile($sub_image,$additionalFileData) ;
             $data['sub_image'] = $sub_file->id;
             $data['sub_src'] = $sub_file->full_path;
+        } 
+        
+        $response = array() ; 
+
+        try {
+            $this->programRepository->save($data) ; 
+            $response['msg'] = '저장되었습니다.' ; 
+        } catch (Exception $e) {
+
         }
 
-        $program = new Program ;
-        if(Input::get('id')){
-            try { 
-                $pre_program = $program->find(Input::get('id')); 
-                $pre_program->update($data);
-                $response['success'] = 1;
-                $response['msg'] = '프로그램이 수정되었습니다.';
-            } catch(Exception $e) { 
-                $response['success'] = 2;
-                $response['msg'] = '프로그램이 수정되지 않았습니다.';
-            }
-        }else{
-            try { 
-                $program->create($data) ; 
-                $response['success'] = 1;
-                $response['msg'] = '프로그램이 생성 되었습니다.';
-            } catch(Exception $e) { 
-                $response['success'] = 2;
-                $response['msg'] = '프로그램이 생성 되지 않았습니다.';
-            }
-        }
-        return View::make('program/register',$response) ;
+        return View::make('program/register',$response) ; 
     }
 
     public function createForm()
@@ -84,11 +83,13 @@ class ProgramController extends \BaseController {
         return View::make('program/register',$response)->with('program',$program) ;
     }
 
-    public function programList($page=0,$list_count=10)
+    public function programList($page=1, $searchKey=null, $searchValue=null)
     {
-        $program = new Program ;
+        $listCount = 1; 
+        $programs = $this->programRepository->getItems($page) ; 
         $result = array();
-        $result['programs'] = $program->all() ;
+        $result['programs'] = $programs ; 
+
         return View::make('program/list')->with('result',$result) ; 
     }
 
@@ -143,8 +144,7 @@ class ProgramController extends \BaseController {
      */
     public function destroy($id)
     {
-        $program = Program::find($id) ;
-        $program->delete() ; 
+        $this->programRepository->delete($id) ; 
 
         return Redirect::to('program/list');
     }

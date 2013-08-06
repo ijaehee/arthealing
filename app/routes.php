@@ -15,6 +15,8 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+App::bind('Program\Repositories\ProgramRepositoryInterface','Program\Repositories\DummyProgramRepository'); 
+
 Route::get('signup','MemberController@signupForm');
 Route::post('signup','MemberController@signup'); 
 
@@ -38,14 +40,12 @@ Route::get('group/list','GroupController@groupList');
 
 Route::get('group/delete/{id?}','GroupController@destroy'); 
 
-Route::get('program/create','ProgramController@createForm');
-Route::post('program/create','ProgramController@register');
-
-Route::get('program/list','ProgramController@programList');
-
-Route::get('program/modify/{id?}','ProgramController@modifyForm'); 
+//Program
+Route::get('program/form','ProgramController@createForm');
+Route::post('program/create','ProgramController@register'); 
+Route::get('program/list/{page?}/{searchKey?}/{searchValue?}','ProgramController@programList'); 
+Route::get('program/form/{id?}','ProgramController@modifyForm'); 
 Route::post('program/modify','ProgramController@register'); 
-
 Route::get('program/delete/{id?}','ProgramController@destroy'); 
 
 Route::get('register/list','RegisterController@registerList');
