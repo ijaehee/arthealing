@@ -28,11 +28,35 @@ class ProgramProcessor {
         return false;
     }
 
+    public function addFile($formData)
+    {
+        $additionalFileData = array() ;
+        $additionalFileData['user_id'] = 1 ; 
+        $drive = \Drive::getDrive('Artwork') ;
+
+        if(isset($formData['main_image'])){
+            $main_file = $drive->createFile($formData['main_image'],$additionalFileData) ;
+
+            $formData['main_image'] = $main_file->id;
+            $formData['main_src'] = $main_file->full_path;
+        }
+
+        if(isset($formData['$sub_image'])){
+            $sub_file = $drive->createFile($formData['$sub_image'],$additionalFileData) ;
+            $formData['sub_image'] = $sub_file->id;
+            $formData['sub_src'] = $sub_file->full_path;
+        }
+        
+        return $formData; 
+    }
+
     public function create($formData)
     {
         if(!$this->validate($formData) || $formData == null){
-            return null;
+            throw new \Exception('not validate or data is null');
         }
+
+        $formData = $this->addFile($formData);
 
         $this->programRepository->create($formData);
     }
@@ -40,8 +64,11 @@ class ProgramProcessor {
     public function modify($formData)
     {
         if(!$this->validate($formData) || $formData == null){
-            return null;
+            throw new \Exception('not validate or data is null');
         }
+
+        $formData = $this->addFile($formData);
+
         $this->programRepository->update($formData);
     }
 

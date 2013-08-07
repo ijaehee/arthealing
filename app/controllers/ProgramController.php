@@ -32,8 +32,10 @@ class ProgramController extends \BaseController {
             $this->programProcessor->create($formData);
         } catch (Exception $e) {
             $response = array();
-            $response['success'] = 2;
-            return View::make('program/register',$response) ; 
+            $response['error'] = 2;
+            $response['msg'] = '값을 제대로 입력하여 주시길 바랍니다.';
+
+            return View::make('program/register',$response)->with('action','program') ; 
         }
 
         return Redirect::to('program/list');
@@ -63,32 +65,8 @@ class ProgramController extends \BaseController {
         $formData['main_image'] = Input::file('main_image') ;
         $formData['sub_image'] = Input::file('sub_image') ;
 
-        $formData = $this->addFile($formData);
-
         return $formData; 
-    }
-
-    private function addFile($formData)
-    {
-        $additionalFileData = array() ;
-        $additionalFileData['user_id'] = 1 ; 
-        $drive = Drive::getDrive('Artwork') ;
-
-        if(isset($formData['main_image'])){
-            $main_file = $drive->createFile($formData['main_image'],$additionalFileData) ;
-
-            $formData['main_image'] = $main_file->id;
-            $formData['main_src'] = $main_file->full_path;
-        }
-
-        if(isset($formData['$sub_image'])){
-            $sub_file = $drive->createFile($formData['$sub_image'],$additionalFileData) ;
-            $formData['sub_image'] = $sub_file->id;
-            $formData['sub_src'] = $sub_file->full_path;
-        }
-        
-        return $formData; 
-    }
+    } 
 
     public function createForm()
     {
