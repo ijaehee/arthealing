@@ -67,7 +67,7 @@ class MemberController extends BaseController {
         {
 
         }
-        return View::make('member/list')->with('result',$result) ;
+        return View::make('member/list')->with('result',$result)->with('action','member') ;
     }
 
     public function modifyForm($id=null)
@@ -83,7 +83,7 @@ class MemberController extends BaseController {
             return Redirect::to('member/list');  
         }
 
-        return View::make('member/view')->with('user',$user) ;
+        return View::make('member/view')->with('user',$user)->with('action','member') ;
     }
 
     public function modify()

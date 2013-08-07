@@ -21,15 +21,13 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
     </div>
     <div class="row"> 
         <form id="leave_form" class="form" method="post" action="/member/leave">
-            <div class="control-groups">
-                <label class="control-label">Password </label>
-                <div lass="controls">
-                    <input type="password" name="password" value="" placeholder="Password" />
-                </div>
+            <div class="form-group">
+                <label>Password </label>
+                <input type="password" class="form-control" name="password" value="" placeholder="Password" />
             </div>
             <hr>
             <div class="text-center well" style="background-color:#efefef;"><?=@$msg;?></div>
-            <div class="control-groups pull-right">
+            <div class="form-group pull-right">
                 <button type="submit" class="btn btn-danger">탈퇴</button>
             </div>
         </form>

@@ -58,7 +58,7 @@ class RegisterController extends \BaseController {
         $program = new Program ;
         $programs = array();
         $programs = $program->all() ;
-        return View::make('register/register')->with('programs',$programs) ; 
+        return View::make('register/register')->with('programs',$programs)->with('action','register') ; 
     }
 
     public function modifyForm($id=null){
@@ -68,7 +68,7 @@ class RegisterController extends \BaseController {
         $program = new Program ;
         $programs = array();
         $programs = $program->all() ;
-        return View::make('register/register')->with('register',$register)->with('programs',$programs) ;
+        return View::make('register/register')->with('register',$register)->with('programs',$programs)->with('action','register') ;
     }
 
     public function activated($id=null){
@@ -152,6 +152,6 @@ class RegisterController extends \BaseController {
         $result = array();
         $search_param = array();
         $result['registers'] = $register->getList($search_param,$page,$list_count);
-        return View::make('register/list')->with('result',$result) ; 
+        return View::make('register/list')->with('result',$result)->with('action','register') ; 
     }
 }

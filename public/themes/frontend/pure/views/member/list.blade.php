@@ -1,16 +1,16 @@
-@extends('layouts/pureLayout') 
+@extends('layouts/adminLayout') 
 <?php
 Asset::queue('MemberController','js/MemberController.js','jquery') ; 
 ?>
 @section('content')
 <div class="container"> 
     <div class="row">
-        <h2 style="text-align:center">회원목록</h2>
+        <h2>회원목록</h2>
     </div>
     <div class="row" style="margin-bottom:10px;">
-        <form method="get" id="search_form" action="/user/list" class="form-inline">
-            <input class="col-lg-2" name="search_email" placeholder="Input search email address">
-            <select class="col-lg-3" name="search_group">
+        <form method="get" id="search_form" action="/member/list" class="form-inline">
+            <input class="form-control" style="width:220px;" name="search_email" placeholder="Input search email address">
+            <select class="form-control" style="width:180px;" name="search_group">
                 <option value="">모두</option>
                 <?php foreach($result['groups'] as $key => $group) :?>
                 <option <?php if($result['selected_group'] == $group->id){echo 'selected'; }?> value="<?=$group->id;?>"><?=$group->name;?></option>

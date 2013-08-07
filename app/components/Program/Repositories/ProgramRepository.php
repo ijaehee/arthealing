@@ -27,6 +27,16 @@ class ProgramRepository implements ProgramRepositoryInterface {
         return $this->model->all() ; 
     }
 
+    public function getPagination()
+    {
+        $pagination = array();
+        $pagination['totalCount'] =  $this->model->all()->count();
+        $pagination['listCount'] =  $this->listCount;
+        $pagination['pageCount'] =  ceil($pagination['totalCount']/$pagination['listCount']);
+
+        return $pagination;
+    }
+
     public function by() 
     {
     }
@@ -39,7 +49,6 @@ class ProgramRepository implements ProgramRepositoryInterface {
 
     public function create($data)
     { 
-        unset($data['id']) ; 
         return $this->model->fill($data)->save() ; 
     }
 
@@ -47,15 +56,6 @@ class ProgramRepository implements ProgramRepositoryInterface {
     {
         $program = $this->find($data['id']) ; 
         return $program->fill($data)->update(); 
-    }
-
-    public function save($data)
-    {
-        if(isset($data['id']) && $data['id'] > 0 ){ //update 
-            return $this->update($data) ; 
-        }else{ //create 
-            return $this->create($data) ; 
-        }
     }
 
     public function delete($id)

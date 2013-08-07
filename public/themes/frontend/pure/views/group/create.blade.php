@@ -9,29 +9,25 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
             <h2>그룹생성</h2>
         </div>
         <form id="reg_form" class="form" method="post" action="/group/create">
-            <div class="control-groups">
-                <label class="control-label">GroupName </label>
-                <div lass="controls">
-                    <input type="text" name="groupname" value="" placeholder="Group Name" />
-                </div>
+            <div class="form-group">
+                <label>GroupName </label>
+                <input type="text" class="form-control" name="groupname" value="" placeholder="Group Name" />
             </div>
-            <div class="control-groups">
+            <div class="form-group">
                 <label class="control-label">Permissions </label>
-                <div class="controls">
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="permissions[]" value="admin">Admin
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="permissions[]" value="users">Users
-                    </label>
-                </div>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="permissions[]" value="admin">Admin
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="permissions[]" value="users">Users
+                </label>
             </div>
             <hr>
             <div class="text-center well" style="background-color:#efefef;"><?=@$msg;?></div>
-            <div class="control-groups pull-right">
+            <div class="form-group pull-right">
                 <button type="submit" class="btn btn-primary">Sign Up</button>
             </div>
-            <div class="control-groups pull-left">
+            <div class="form-group pull-left">
                 <a class="btn btn-default" href="/group/list">목록</a>
             </div>
         </form>

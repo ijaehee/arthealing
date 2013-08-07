@@ -1,11 +1,11 @@
-@extends('layouts/pureLayout') 
+@extends('layouts/adminLayout') 
 <?php
 Asset::queue('MemberController','js/MemberController.js','jquery') ; 
 ?>
 @section('content')
 <div class="container"> 
     <div class="row">
-        <h2 style="text-align:center">프로그램목록</h2>
+        <h2>프로그램목록</h2>
     </div>
     <div class="row">
         <a class="btn btn-info pull-right" href="/register/create">프로그램생성</a>

@@ -1,13 +1,13 @@
 <?php
-use Program\Repositories\ProgramRepositoryInterface; 
+use Program\ProgramProcessor; 
 
 class ProgramController extends \BaseController {
     
-    protected $programRepository ; 
+    protected $programProcessor ; 
 
-    public function __construct(ProgramRepositoryInterface $programRepository)
+    public function __construct(ProgramProcessor $programProcessor)
     { 
-        $this->programRepository = $programRepository ; 
+        $this->programProcessor  = $programProcessor ; 
     }
     /**
      * Display a listing of the resource.
@@ -16,83 +16,107 @@ class ProgramController extends \BaseController {
      */
     public function index()
     { 
-    }
-
-    public function modify()
-    {
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.
      *
      * @return Response
      */
-    public function register()
+    public function create()
     {
-        $response = array();
+        $formData = $this->setFormData();
+        unset($formData['id']);
 
-        $data = array();
-        $data['name'] = Input::get('programname');
-        $data['category'] = Input::get('category');
-        $data['exhibition_id'] = Input::get('exhibition');
-        $data['place'] = Input::get('place');
-        $data['id'] = Input::get('id');
-        $data['content'] = Input::get('content');
-        $main_image = Input::file('main_image') ;
-        $sub_image = Input::file('sub_image') ;
+        try{
+            $this->programProcessor->create($formData);
+        } catch (Exception $e) {
+            $response = array();
+            $response['success'] = 2;
+            return View::make('program/register',$response) ; 
+        }
 
+        return Redirect::to('program/list');
+    }
+
+    public function modify()
+    {
+        $formData = $this->setFormData();
+        try{
+            $this->programProcessor->modify($formData);
+        } catch (Exception $e) {
+            return Redirect::to('program/form/'.$formData['id']);
+        }
+        
+        return Redirect::to('program/form/'.$formData['id']);
+    }
+
+    public function setFormData()
+    {
+        $formData = array();
+        $formData['id'] = Input::get('id');
+        $formData['name'] = Input::get('programname');
+        $formData['category'] = Input::get('category');
+        $formData['exhibition_id'] = Input::get('exhibition');
+        $formData['place'] = Input::get('place');
+        $formData['content'] = Input::get('content');
+        $formData['main_image'] = Input::file('main_image') ;
+        $formData['sub_image'] = Input::file('sub_image') ;
+
+        $formData = $this->addFile($formData);
+
+        return $formData; 
+    }
+
+    public function addFile($formData)
+    {
         $additionalFileData = array() ;
         $additionalFileData['user_id'] = 1 ; 
         $drive = Drive::getDrive('Artwork') ;
 
-        if(isset($main_image)){
-            $main_file = $drive->createFile($main_image,$additionalFileData) ;
+        if(isset($formData['main_image'])){
+            $main_file = $drive->createFile($formData['main_image'],$additionalFileData) ;
 
-            $data['main_image'] = $main_file->id;
-            $data['main_src'] = $main_file->full_path;
+            $formData['main_image'] = $main_file->id;
+            $formData['main_src'] = $main_file->full_path;
         }
 
-        if(isset($sub_image)){
-            $sub_file = $drive->createFile($sub_image,$additionalFileData) ;
-            $data['sub_image'] = $sub_file->id;
-            $data['sub_src'] = $sub_file->full_path;
-        } 
+        if(isset($formData['$sub_image'])){
+            $sub_file = $drive->createFile($formData['$sub_image'],$additionalFileData) ;
+            $formData['sub_image'] = $sub_file->id;
+            $formData['sub_src'] = $sub_file->full_path;
+        }
         
-        $response = array() ; 
-
-        try {
-            $this->programRepository->save($data) ; 
-            $response['msg'] = '저장되었습니다.' ; 
-        } catch (Exception $e) {
-
-        }
-
-        return View::make('program/register',$response) ; 
+        return $formData; 
     }
 
     public function createForm()
     {
-        return View::make('program/register') ; 
+        return View::make('program/register')->with('action','program') ; 
     }
+
+    public function programList($page=1, $searchKey=null, $searchValue=null)
+    {
+        $programs = $this->programProcessor->getItems($page); 
+        $pagination = $this->programProcessor->getPagination(); 
+        $pagination['page'] = $page;
+
+        $result = array();
+        $result['programs'] = $programs ; 
+        $result['pagination'] = $pagination ; 
+
+        return View::make('program/list',$result)->with('action','program') ; 
+    }
+
 
     public function modifyForm($id=null){
         $response = array();
 
         $program = array();
         $program = program::find($id);
-        return View::make('program/register',$response)->with('program',$program) ;
+        return View::make('program/register',$response)->with('program',$program)->with('action','program') ;
     }
-
-    public function programList($page=1, $searchKey=null, $searchValue=null)
-    {
-        $listCount = 1; 
-        $programs = $this->programRepository->getItems($page) ; 
-        $result = array();
-        $result['programs'] = $programs ; 
-
-        return View::make('program/list')->with('result',$result) ; 
-    }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
@@ -144,7 +168,7 @@ class ProgramController extends \BaseController {
      */
     public function destroy($id)
     {
-        $this->programRepository->delete($id) ; 
+        $this->programProcessor->delete($id);
 
         return Redirect::to('program/list');
     }
