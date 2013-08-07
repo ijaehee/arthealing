@@ -25,7 +25,7 @@ class ProgramController extends \BaseController {
      */
     public function create()
     {
-        $formData = $this->setFormData();
+        $formData = $this->getFormData();
         unset($formData['id']);
 
         try{
@@ -41,7 +41,7 @@ class ProgramController extends \BaseController {
 
     public function modify()
     {
-        $formData = $this->setFormData();
+        $formData = $this->getFormData();
         try{
             $this->programProcessor->modify($formData);
         } catch (Exception $e) {
@@ -51,7 +51,7 @@ class ProgramController extends \BaseController {
         return Redirect::to('program/form/'.$formData['id']);
     }
 
-    public function setFormData()
+    private function getFormData()
     {
         $formData = array();
         $formData['id'] = Input::get('id');
@@ -68,7 +68,7 @@ class ProgramController extends \BaseController {
         return $formData; 
     }
 
-    public function addFile($formData)
+    private function addFile($formData)
     {
         $additionalFileData = array() ;
         $additionalFileData['user_id'] = 1 ; 
