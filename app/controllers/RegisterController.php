@@ -1,6 +1,17 @@
 <?php
+use Register\RegisterProcessor; 
+use Program\ProgramProcessor; 
 
 class RegisterController extends \BaseController {
+
+    protected $registerProcessor ; 
+    protected $programProcessor ; 
+
+    public function __construct(RegisterProcessor $registerProcessor,ProgramProcessor $programProcessor)
+    { 
+        $this->registerProcessor  = $registerProcessor ; 
+        $this->programProcessor  = $programProcessor ; 
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -17,74 +28,87 @@ class RegisterController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-    public function register()
-    {
-        $data = array();
-        $data['program_id'] = Input::get('program_id');
-        $data['due_date'] = Input::get('due_date');
-        $data['limit_people'] = Input::get('limit_people');
-        $data['etc'] = Input::get('etc');
-
-        $register = new Register;
-        if(Input::get('id')){
-            try { 
-                $pre_register = $register->find(Input::get('id')); 
-                $pre_register->update($data);
-            } catch(Exception $e) { 
-
-            }
-            return Redirect::to('register/modify/'.Input::get('id'));
-        }else{
-            try { 
-                $register->create($data) ; 
-
-                return Redirect::to('register/list');
-            } catch(Exception $e) { 
-                $response = array();
-                $response['success'] = 2;
-                $response['msg'] = '힐링이 생성 되지 않았습니다.';
-
-                $program = new Program ;
-                $programs = array();
-                $programs = $program->all() ;
-
-                return View::make('register/register',$response)->with('programs',$programs) ;
-            }
-        }
-    }
-
     public function createForm()
     {
-        $program = new Program ;
-        $programs = array();
-        $programs = $program->all() ;
+        $programs = $this->programProcessor->getAll();
+
         return View::make('register/register')->with('programs',$programs)->with('action','register') ; 
     }
 
-    public function modifyForm($id=null){
-        $register = array();
-        $register = register::find($id);
+    public function create()
+    {
+        $formData = $this->getFormData();
+        unset($formData['id']);
 
-        $program = new Program ;
-        $programs = array();
-        $programs = $program->all() ;
+        try{
+            $this->registerProcessor->create($formData);
+        } catch (Exception $e) {
+            $response = array();
+            $response['error'] = 2;
+            $response['msg'] = '값을 제대로 입력하여 주시길 바랍니다.';
+
+            $programs = $this->programProcessor->getAll();
+            return View::make('register/register',$response)->with('programs',$programs)->with('action','program') ; 
+        }
+
+        return Redirect::to('register/list');
+    }
+
+    public function modify()
+    {
+        $formData = $this->getFormData();
+        try{
+            $this->registerProcessor->modify($formData);
+        } catch (Exception $e) {
+            return Redirect::to('register/form/'.$formData['id']);
+        }
+        
+        return Redirect::to('register/form/'.$formData['id']);
+    }
+
+    private function getFormData()
+    {
+        $formData = array();
+        $formData['id'] = Input::get('id');
+        $formData['program_id'] = Input::get('program_id');
+        $formData['due_date'] = Input::get('due_date');
+        $formData['limit_people'] = Input::get('limit_people');
+        $formData['etc'] = Input::get('etc');
+
+        return $formData; 
+    }
+
+    public function modifyForm($id=null){
+        $register = $this->registerProcessor->getItem($id);
+
+        $programs = $this->programProcessor->getAll();
         return View::make('register/register')->with('register',$register)->with('programs',$programs)->with('action','register') ;
     }
 
     public function activated($id=null){
-        $register = Register::find($id) ;
-        $data = array();
-        $data['activated'] = 1;
-        $register->update($data);
+        $formData = array();
+        $formData['id'] = $id;
+        $formData['activated'] = 1;
+
+        try{
+            $this->registerProcessor->modify($formData);
+        } catch (Exception $e) {
+
+        }
 
         return Redirect::to('register/list');
     }
 
     public function inactivated($id=null){
-        $register = Register::find($id) ;
-        $data = array();
-        $data['activated'] = 0;
-        $register->update($data);
+        $formData = array();
+        $formData['id'] = $id;
+        $formData['activated'] = 0;
+
+        try{
+            $this->registerProcessor->modify($formData);
+        } catch (Exception $e) {
+
+        }
 
         return Redirect::to('register/list');
     }
@@ -140,18 +164,21 @@ class RegisterController extends \BaseController {
      */
     public function destroy($id)
     {
-        $register = Register::find($id) ;
-        $register->delete() ; 
+        $this->registerProcessor->delete($id);
 
         return Redirect::to('register/list');
     }
 
-    public function registerList($page=0,$list_count=10)
+    public function registerList($page=1, $searchKey=null, $searchValue=null)
     {
-        $register = new Register ;
+        $registers = $this->registerProcessor->getItems($page); 
+        $pagination = $this->registerProcessor->getPagination(); 
+        $pagination['page'] = $page;
+
         $result = array();
-        $search_param = array();
-        $result['registers'] = $register->getList($search_param,$page,$list_count);
-        return View::make('register/list')->with('result',$result)->with('action','register') ; 
+        $result['registers'] = $registers ; 
+        $result['pagination'] = $pagination ; 
+
+        return View::make('register/list',$result)->with('action','register') ; 
     }
 }

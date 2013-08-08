@@ -63,7 +63,7 @@ class ProgramProcessor {
 
     public function modify($formData)
     {
-        if(!$this->validate($formData) || $formData == null){
+        if($formData == null){
             throw new \Exception('not validate or data is null');
         }
 
@@ -75,6 +75,16 @@ class ProgramProcessor {
     public function getItems($page=1)
     {
         return $this->programRepository->getItems($page);
+    }
+
+    public function getItem($id)
+    {
+        return $this->programRepository->find($id);
+    }
+
+    public function getAll()
+    {
+        return $this->programRepository->all();
     }
 
     public function getPagination()

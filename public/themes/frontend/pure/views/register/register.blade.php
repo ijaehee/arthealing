@@ -37,7 +37,7 @@ Asset::queue('alias','css/jquery-ui.css') ;
                     <textarea type="file" name="etc" class="ckeditor" style="width:100%; height:200px;"/><?=@$register->etc;?></textarea>
             </div>
             <hr>
-            <div class="text-center alert <?php if(@$success == '1'){ echo 'alert-success';}else if(@$success == '2'){ echo 'alert-danger';}else{ echo 'alert-info';}?>"><?=@$msg;?></div>
+            <div class="text-center alert <?php if(@$error == '1'){ echo 'alert-success';}else if(@$error == '2'){ echo 'alert-danger';}else{ echo 'alert-info';}?>"><?=@$msg;?></div>
             <div class="form-group pull-right">
             <?php if(empty($register)): ?>
                 <button type="submit" class="btn btn-primary">Create</button>

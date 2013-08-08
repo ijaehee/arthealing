@@ -15,8 +15,9 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-//App::bind('Program\Repositories\ProgramRepositoryInterface','Program\Repositories\DummyProgramRepository'); 
+App::bind('Member\Repositories\MemberRepositoryInterface','Member\Repositories\MemberRepository'); 
 App::bind('Program\Repositories\ProgramRepositoryInterface','Program\Repositories\ProgramRepository'); 
+App::bind('Register\Repositories\RegisterRepositoryInterface','Register\Repositories\RegisterRepository'); 
 
 Route::get('signup','MemberController@signupForm');
 Route::post('signup','MemberController@signup'); 
@@ -44,26 +45,21 @@ Route::get('group/delete/{id?}','GroupController@destroy');
 //Program
 Route::get('program/form','ProgramController@createForm');
 Route::post('program/create','ProgramController@create'); 
-//Route::post('program/create','ProgramController@register'); 
-Route::get('program/list/{page?}/{searchKey?}/{searchValue?}','ProgramController@programList'); 
 Route::get('program/form/{id?}','ProgramController@modifyForm'); 
 Route::post('program/modify','ProgramController@modify'); 
 Route::get('program/delete/{id?}','ProgramController@destroy'); 
+Route::get('program/list/{page?}/{searchKey?}/{searchValue?}','ProgramController@programList'); 
 
-Route::get('register/list','RegisterController@registerList');
-
-Route::get('register/create','RegisterController@createForm');
-Route::post('register/create','RegisterController@register');
-
+//Register
+Route::get('register/form','RegisterController@createForm');
+Route::post('register/create','RegisterController@create');
+Route::get('register/form/{id?}','RegisterController@modifyForm'); 
+Route::post('register/modify','RegisterController@modify'); 
+Route::get('register/delete/{id?}','RegisterController@destroy'); 
 Route::get('register/activated/{id?}','RegisterController@activated');
 Route::get('register/inactivated/{id?}','RegisterController@inactivated');
-
-Route::get('register/modify/{id?}','RegisterController@modifyForm'); 
-Route::post('register/modify','RegisterController@register'); 
-
-Route::get('register/delete/{id?}','RegisterController@destroy'); 
+Route::get('register/list/{page?}/{searchKey?}/{searchValue?}','RegisterController@registerList'); 
 
 Route::get('gate/list','GateController@tourList');
-
 Route::get('gate/apply/{id?}','GateController@applyForm'); 
 Route::post('gate/apply','GateController@apply'); 

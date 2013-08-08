@@ -1,6 +1,41 @@
 <?php
+use Member\MemberProcessor; 
 
 class MemberController extends BaseController {
+
+    protected $memberProcessor ; 
+
+    public function __construct(MemberProcessor $memberProcessor)
+    { 
+        $this->memberProcessor  = $memberProcessor ; 
+    }
+
+    private function getSearchForm()
+    {
+        $searchData = array(); 
+
+        $searchData['selected_group'] = Input::get('search_group');
+        $searchData['selected_email'] = Input::get('search_email');
+
+        return $searchData;
+    }
+
+    public function memberList($page=1)
+    {
+        $searchData = $this->getSearchForm();
+
+        $users = $this->memberProcessor->getItems($page,$searchData); 
+        $pagination = $this->memberProcessor->getPagination($searchData); 
+        $pagination['page'] = $page;
+
+        $result = $searchData;
+        $result['users'] = $users ; 
+        $result['pagination'] = $pagination ; 
+
+        $result['groups'] = Sentry::getGroupProvider()->findAll();
+         
+        return View::make('member/list',$result)->with('action','member') ;
+    }
 
     public function signupForm()
     {
@@ -42,32 +77,6 @@ class MemberController extends BaseController {
             $response['msg'] = '그룹이 존재하지 않습니다.';
         }
         return View::make('member/signup',$response) ;
-    }
-
-    public function memberList($page=0,$list_count=10)
-    {
-        $result = array();
-
-        $result['selected_group'] = Input::get('search_group');
-        $result['selected_email'] = Input::get('search_email');
-
-        try {
-            if($result['selected_email']){
-                $result['users'] =  Sentry::getUserProvider()->createModel()->where('email','like','%'. $result['selected_email'] .'%')->take(10)->get()  ; 
-            }else if($result['selected_group']){
-                $search_group = Sentry::getGroupProvider()->findById($result['selected_group']);
-                $result['users'] = Sentry::getUserProvider()->findAllInGroup($search_group);
-            }else{
-                $result['users'] = Sentry::getUserProvider()->createModel()->take(10)->get();
-            }
-
-            $result['groups'] = Sentry::getGroupProvider()->findAll();
-        }
-        catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
-        {
-
-        }
-        return View::make('member/list')->with('result',$result)->with('action','member') ;
     }
 
     public function modifyForm($id=null)

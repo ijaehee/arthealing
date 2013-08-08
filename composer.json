@@ -30,7 +30,9 @@
 			"app/tests/TestCase.php"
 		],
         "psr-0" : { 
-            "Program" : "app/components/"
+            "Member" : "app/components/",
+            "Program" : "app/components/",
+            "Register" : "app/components/"
         }
         
 	},

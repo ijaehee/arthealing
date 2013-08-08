@@ -86,13 +86,9 @@ class ProgramController extends \BaseController {
         return View::make('program/list',$result)->with('action','program') ; 
     }
 
-
     public function modifyForm($id=null){
-        $response = array();
-
-        $program = array();
-        $program = program::find($id);
-        return View::make('program/register',$response)->with('program',$program)->with('action','program') ;
+        $program = $this->programProcessor->getItem($id);
+        return View::make('program/register')->with('program',$program)->with('action','program') ;
     }
  
     /**
