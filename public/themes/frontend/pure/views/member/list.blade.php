@@ -25,6 +25,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <th>번호</th>
                     <th>이메일</th>
                     <th>이름</th>
+                    <th>그룹</th>
                     <th>생성날짜</th>
                     <th>기능</th>
                 </tr>
@@ -32,7 +33,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
             <tbody>
                 <?php if(empty($users)){ ?>
                 <tr class="text-center">
-                    <td colspan="5">회원이 없습니다.</td>
+                    <td colspan="6">회원이 없습니다.</td>
                 </tr>
                 <?php }else{ ?>
                 <?php foreach($users as $key => $user) :?>
@@ -40,6 +41,11 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <td><?=$user->id;?></td>
                     <td><a href="/member/modify/<?=$user->id;?>"><?=$user->email;?></a></td>
                     <td><?=$user->first_name;?></td>
+                    <td>
+                    <?php foreach($groups as $key => $group) :?>
+                        <?php if($group->id == $user->group_id){echo $group->name; }?>
+                    <?php endforeach;?>
+                    </td>
                     <td><?=$user->created_at;?></td>
                     <td><a class="btn btn-danger" href="/member/delete/<?=$user->id;?>">삭제</a></td>
                 </tr>  

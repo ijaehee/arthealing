@@ -24,6 +24,7 @@ class CreateProgramsTable extends Migration {
 			$table->string('main_src')->nullable();
 			$table->string('sub_image')->nullable();
 			$table->string('sub_src')->nullable();
+			$table->integer('activated')->default(0);
 			$table->timestamps();
 		});
 	}

@@ -87,6 +87,11 @@ class ProgramProcessor {
         return $this->programRepository->all();
     }
 
+    public function getActivatedItems()
+    {
+        return $this->programRepository->getActivatedItems();
+    }
+
     public function getPagination()
     {
         return $this->programRepository->getPagination();

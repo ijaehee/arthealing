@@ -19,27 +19,24 @@ App::bind('Member\Repositories\MemberRepositoryInterface','Member\Repositories\M
 App::bind('Program\Repositories\ProgramRepositoryInterface','Program\Repositories\ProgramRepository'); 
 App::bind('Register\Repositories\RegisterRepositoryInterface','Register\Repositories\RegisterRepository'); 
 
+//Member
 Route::get('signup','MemberController@signupForm');
 Route::post('signup','MemberController@signup'); 
-
 Route::get('login','MemberController@loginForm');
 Route::post('login','MemberController@login'); 
-
 Route::post('member/modify','MemberController@modify'); 
 Route::get('member/modify/{id?}','MemberController@modifyForm'); 
-
 Route::get('member/delete/{id?}','MemberController@destroy'); 
-
 Route::get('member/list','MemberController@memberList'); 
-
 Route::get('member/leave','MemberController@leaveForm');
 Route::post('member/leave','MemberController@leave'); 
 
-Route::get('group/create','GroupController@createForm');
+//Group
+Route::get('group/form','GroupController@createForm');
 Route::post('group/create','GroupController@create'); 
-
+Route::get('group/form/{id?}','GroupController@modifyForm');
+Route::post('group/modify','GroupController@modify'); 
 Route::get('group/list','GroupController@groupList'); 
-
 Route::get('group/delete/{id?}','GroupController@destroy'); 
 
 //Program
@@ -48,6 +45,8 @@ Route::post('program/create','ProgramController@create');
 Route::get('program/form/{id?}','ProgramController@modifyForm'); 
 Route::post('program/modify','ProgramController@modify'); 
 Route::get('program/delete/{id?}','ProgramController@destroy'); 
+Route::get('program/activated/{id?}','ProgramController@activated');
+Route::get('program/inactivated/{id?}','ProgramController@inactivated');
 Route::get('program/list/{page?}/{searchKey?}/{searchValue?}','ProgramController@programList'); 
 
 //Register
@@ -60,6 +59,7 @@ Route::get('register/activated/{id?}','RegisterController@activated');
 Route::get('register/inactivated/{id?}','RegisterController@inactivated');
 Route::get('register/list/{page?}/{searchKey?}/{searchValue?}','RegisterController@registerList'); 
 
+//Gate
 Route::get('gate/list','GateController@tourList');
 Route::get('gate/apply/{id?}','GateController@applyForm'); 
 Route::post('gate/apply','GateController@apply'); 

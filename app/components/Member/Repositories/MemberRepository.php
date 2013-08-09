@@ -54,11 +54,11 @@ class MemberRepository implements MemberRepositoryInterface {
     {   
         $listCount = $this->listCount ; 
         if(isset($searchData['selected_group']) && $searchData['selected_group'] != ""){
-            $result =$this->model->select('users.*')->join('users_groups','users.id','=','users_groups.user_id')->where('users_groups.group_id',$searchData['selected_group'])->skip(($page-1)*$listCount)->take($listCount)->get();
+            $result =$this->model->select('users.*','users_groups.group_id')->join('users_groups','users.id','=','users_groups.user_id')->where('users_groups.group_id',$searchData['selected_group'])->skip(($page-1)*$listCount)->take($listCount)->get();
         }else if(isset($searchData['selected_email'])  && $searchData['selected_email'] != ""){
-            $result =$this->model->where('email','like','%'.$searchData['selected_email'].'%')->skip(($page-1)*$listCount)->take($listCount)->get();
+            $result =$this->model->select('users.*','users_groups.group_id')->join('users_groups','users.id','=','users_groups.user_id')->where('email','like','%'.$searchData['selected_email'].'%')->skip(($page-1)*$listCount)->take($listCount)->get();
         }else{
-            $result = $this->model->skip(($page-1)*$listCount)->take($listCount)->get();
+            $result = $this->model->select('users.*','users_groups.group_id')->join('users_groups','users.id','=','users_groups.user_id')->skip(($page-1)*$listCount)->take($listCount)->get();
         }
         return $result;
     }

@@ -15,6 +15,7 @@ class RegisterProcessor {
         $rules = array(
             'program_id' => 'Required',
             'due_date' => 'Required',
+            'deadline_date' => 'Required',
             'limit_people' => 'Required|Numeric'
         );
 

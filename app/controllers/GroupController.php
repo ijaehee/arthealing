@@ -46,12 +46,64 @@ class GroupController extends \BaseController {
         {
             $response['msg'] = '이미 그룹이 존재합니다.';
         }
-        return View::make('group/create',$response) ;
+        return View::make('group/create',$response)->with('action','group') ;
     }
 
     public function createForm()
     {
-        return View::make('group/create') ; 
+        return View::make('group/create')->with('action','group') ; 
+    }
+
+    public function modifyForm($id)
+    {
+        $group = array();
+
+        try
+        {
+                $group = Sentry::getGroupProvider()->findById($id);
+        }
+        catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
+        {
+                echo 'Group was not found.';
+        }
+
+        return View::make('group/create')->with('group',$group)->with('action','group') ; 
+    }
+
+    public function modify()
+    {
+        $response = array() ;
+        $group = array();
+        try
+        {
+            $id = Input::get('id') ;
+            $group = Sentry::getGroupProvider()->findById($id);
+
+            if(Input::get('groupname')){
+                $group->name = Input::get('groupname');
+            }
+
+            $temp = Input::get('permissions');
+            $permissions = array();
+            if(!empty($temp)){
+                foreach($temp as $key => $value){
+                    $permissions[$value] = true; 
+                }
+                $group->permissions = $permissions;
+            }
+
+            if ($group->save())
+            {
+                $group = Sentry::getGroupProvider()->findById($id);
+                $response['msg'] = '그룹이 수정되었습니다.';
+            }
+        }
+        catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
+        {
+            $response['msg'] = '그룹이 존재하지 않습니다.';
+        }
+        
+        return View::make('group/create',$response)->with('group',$group)->with('action','group') ;
     }
 
     /**
@@ -113,7 +165,7 @@ class GroupController extends \BaseController {
         catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
         {
         }
-        return Redirect::to('group/list');  
+        return Redirect::to('group/list')->with('action','group');  
     }
 
     public function groupList()
@@ -127,6 +179,6 @@ class GroupController extends \BaseController {
         {
 
         }
-        return View::make('group/list')->with('result',$result) ;
+        return View::make('group/list')->with('result',$result)->with('action','group') ;
     }
 }

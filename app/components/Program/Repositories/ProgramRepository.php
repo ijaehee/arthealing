@@ -27,6 +27,11 @@ class ProgramRepository implements ProgramRepositoryInterface {
         return $this->model->all() ; 
     }
 
+    public function getActivatedItems()
+    {
+        return $this->model->where('activated','1')->get() ; 
+    }
+
     public function getPagination()
     {
         $pagination = array();

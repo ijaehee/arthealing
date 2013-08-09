@@ -19,6 +19,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <th>프로그램이미지</th>
                     <th>프로그램이름</th>
                     <th>투어날짜</th>
+                    <th>신청마감날짜</th>
                     <th>등록수</th>
                     <th>생성날짜</th>
                     <th>Hit</th>
@@ -38,6 +39,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <td><a href="/register/form/<?=$register->id;?>"><img src="<?=$register->main_src;?>"></a></td>
                     <td><?=$register->name;?></td>
                     <td><?=$register->due_date;?></td>
+                    <td><?=$register->deadline_date;?></td>
                     <td><?=$register->register_people?>/<?=$register->limit_people?></td>
                     <td><?=$register->created_at;?></td>
                     <td><?=$register->hit;?></td>

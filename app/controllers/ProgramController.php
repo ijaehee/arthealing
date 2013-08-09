@@ -90,6 +90,34 @@ class ProgramController extends \BaseController {
         $program = $this->programProcessor->getItem($id);
         return View::make('program/register')->with('program',$program)->with('action','program') ;
     }
+
+    public function activated($id=null){
+        $formData = array();
+        $formData['id'] = $id;
+        $formData['activated'] = 1;
+
+        try{
+            $this->programProcessor->modify($formData);
+        } catch (Exception $e) {
+
+        }
+
+        return Redirect::to('program/list');
+    }
+
+    public function inactivated($id=null){
+        $formData = array();
+        $formData['id'] = $id;
+        $formData['activated'] = 0;
+
+        try{
+            $this->programProcessor->modify($formData);
+        } catch (Exception $e) {
+
+        }
+
+        return Redirect::to('program/list');
+    }
  
     /**
      * Store a newly created resource in storage.

@@ -55,7 +55,7 @@
                 <li @if($action=='member') class="active" @endif > <a href="/member/list"><i class="glyphicon glyphicon-user" style="font-size:22px;"></i>&nbsp;<span class="nav-label" >Member</span></a> </li>
                 <li @if($action=='program') class="active" @endif ><a href="/program/list"><i class="glyphicon glyphicon-picture" style="font-size:22px;"></i>&nbsp;<span class="nav-label" >Program</span></a></li> 
                 <li @if($action=='register') class="active" @endif ><a href="/register/list"><i class="glyphicon glyphicon-th-list" style="font-size:22px;"></i>&nbsp;<span class="nav-label" >Resiters</span></a></li>
-                <li @if($action=='config') class="active" @endif ><a href="/artist/config"><i class="glyphicon glyphicon-cog" style="font-size:22px;"></i>&nbsp;<span class="nav-label" >Configuration</span></a></li>
+                <li @if($action=='group') class="active" @endif ><a href="/group/list"><i class="glyphicon glyphicon-cog" style="font-size:22px;"></i>&nbsp;<span class="nav-label" >Group</span></a></li>
                 <!--<li @if($action=='profile') class="active" @endif ><a href="#"><i class="glyphicon glyphicon-pencil" style="font-size:25px;"></i></a> </li>
                 <li @if($action=='profile') class="active" @endif ><a href="#"><i class="glyphicon glyphicon-comment" style="font-size:25px;"></i></a> </li>-->
             </ul> 

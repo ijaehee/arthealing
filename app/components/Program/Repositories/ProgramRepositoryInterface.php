@@ -6,6 +6,7 @@ interface ProgramRepositoryInterface
     public function setListCount($listCount) ; 
     public function find($id) ; 
     public function all() ; 
+    public function getActivatedItems() ; 
     public function getPagination() ; 
     public function by() ; 
     public function getItems($page) ; 

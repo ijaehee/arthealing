@@ -19,6 +19,7 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <th>프로그램이미지</th>
                     <th>프로그램이름</th>
                     <th>생성날짜</th>
+                    <th>활성화유무</th>
                     <th>기능</th>
                 </tr>
             </thead>
@@ -34,6 +35,13 @@ Asset::queue('MemberController','js/MemberController.js','jquery') ;
                     <td><a href="/program/form/<?=$program->id;?>"><img src="<?=$program->main_src;?>"></a></td>
                     <td><?=$program->name;?></td>
                     <td><?=$program->created_at;?></td>
+                    <td>
+                    <?php if($program->activated == 1) : ?>
+                        <a class="btn btn-success" href="/program/inactivated/<?=$program->id;?>">활성화</a>
+                        <?php else : ?>
+                        <a class="btn btn-default" href="/program/activated/<?=$program->id;?>">비활성화</a>
+                    <?php endif ; ?>
+                    </td>
                     <td><a class="btn btn-danger" href="/program/delete/<?=$program->id;?>">삭제</a></td>
                 </tr>  
                 <?php endforeach;?>

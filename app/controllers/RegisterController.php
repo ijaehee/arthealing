@@ -30,7 +30,7 @@ class RegisterController extends \BaseController {
 	 */
     public function createForm()
     {
-        $programs = $this->programProcessor->getAll();
+        $programs = $this->programProcessor->getActivatedItems();
 
         return View::make('register/register')->with('programs',$programs)->with('action','register') ; 
     }
@@ -48,7 +48,7 @@ class RegisterController extends \BaseController {
             $response['msg'] = '값을 제대로 입력하여 주시길 바랍니다.';
 
             $programs = $this->programProcessor->getAll();
-            return View::make('register/register',$response)->with('programs',$programs)->with('action','program') ; 
+            return View::make('register/register',$response)->with('programs',$programs)->with('action','register') ; 
         }
 
         return Redirect::to('register/list');
@@ -72,6 +72,7 @@ class RegisterController extends \BaseController {
         $formData['id'] = Input::get('id');
         $formData['program_id'] = Input::get('program_id');
         $formData['due_date'] = Input::get('due_date');
+        $formData['deadline_date'] = Input::get('deadline_date');
         $formData['limit_people'] = Input::get('limit_people');
         $formData['etc'] = Input::get('etc');
 

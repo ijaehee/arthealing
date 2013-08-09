@@ -29,6 +29,10 @@ Asset::queue('alias','css/jquery-ui.css') ;
                     <input type="text" name="due_date" value="<?=@$register->due_date;?>" class="datepicker form-control"/>
             </div>
             <div class="form-group">
+                <label >신청마감날짜 </label>
+                    <input type="text" name="deadline_date" value="<?=@$register->deadline_date;?>" class="datepicker form-control"/>
+            </div>
+            <div class="form-group">
                 <label >참가자수 </label>
                     <input type="text" class="form-control" name="limit_people" value="<?=@$register->limit_people;?>"/>
             </div>
